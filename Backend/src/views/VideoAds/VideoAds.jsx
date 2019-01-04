@@ -12,13 +12,8 @@ import Card from "components/Card/Card.jsx";
 import CardHeader from "components/Card/CardHeader.jsx";
 import CardBody from "components/Card/CardBody.jsx";
 import CardFooter from "components/Card/CardFooter.jsx";
-import { Line, Pie } from "react-chartjs-2";
+import { Pie } from "react-chartjs-2";
 import TronWeb from 'tronweb';
-
-import {
-  dashboardNASDAQChart,
-  dashboardEmailStatisticsChart
-} from "variables/charts.jsx";
 
 import contracts from '../../contracts/CrazyPinyin';
 //const contractJson = contracts['CrazyPinyin.sol:TRXMessages'];
@@ -182,11 +177,11 @@ class VideoAds extends React.Component {
               console.log("### getVideoAdsInfo: " + result[0] + " 2: " + result[1] + " 3: " + result[2] + " 4: " + result[3] + " 5: " + result[4]);
               
               var data = [];
+              data.push(result[3].toString());
+              data.push(result[4].toString());
               data.push(result[0].toString());
               data.push(result[1].toString());
               data.push(result[2].toString());
-              data.push(result[3].toString());
-              data.push(result[4].toString());
               var td = this.state.tableData;
               td.push(data);
 
@@ -486,7 +481,7 @@ class VideoAds extends React.Component {
               </CardFooter>
             </Card>
           </GridItem>
-          <GridItem xs={12} sm={12} md={4}>
+          <GridItem xs={12} sm={12} md={12}>
                 <Card>
                   <CardHeader plain color="primary">
                     <h4 className={classes.cardTitleWhite}>广告播放占比</h4>

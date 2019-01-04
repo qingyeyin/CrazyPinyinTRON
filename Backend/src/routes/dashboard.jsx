@@ -5,13 +5,13 @@ import VideoAds from "views/VideoAds/VideoAds.jsx";
 
 const dashboardRoutes = [
   {
-    path: "/user",
+    path: "/",
     sidebarName: "疯狂拼音",
     navbarName: "数据面板",
     icon: Games,
     component: VideoAds
   },
-  { redirect: true, path: "/", to: "/user", navbarName: "Redirect" }
+  { redirect: true, path: "/", to: "/", navbarName: "Redirect" }
 ];
 
 export default dashboardRoutes;
