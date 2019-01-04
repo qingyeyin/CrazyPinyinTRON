@@ -1,5 +1,10 @@
 # 疯狂拼音波场首发
 
+注：
+*《疯狂拼音》采用Cocos Creator制作，保证了游戏的跨平台性。由于时间限制，目前只实现了采用TronLink/TronPay的Web版本，后续将会支持Android/iOS版本。
+*《疯狂拼音》和《广告主管理后台》基于TRON公链实现，使用TRX作为游戏内的激励。得益于TRON的高性能，游戏体验得到大幅加强。
+
+# 游戏理念
 2018可谓是区块链游戏开启先河的一年。游戏被公认为是区块链最先应用的场景。
 
 经过一年的发展，几大类区块链游戏也孕育而生，已经落地的区块链游戏产品有博彩类、资金盘类，宠物养成类、卡牌类、沙盒类、放置类和策略类等等。
@@ -48,7 +53,3 @@
 ![](https://github.com/qingyeyin/CrazyPinyinTRON/blob/master/screenshots/5.png)
 ![](https://github.com/qingyeyin/CrazyPinyinTRON/blob/master/screenshots/6.png)
 ![](https://github.com/qingyeyin/CrazyPinyinTRON/blob/master/screenshots/7.png)
-
-
-《疯狂拼音》采用Cocos Creator制作，保证了游戏的跨平台性。由于时间限制，目前只实现了采用TronLink/TronPay的Web版本，后续将会支持Android/iOS版本。
-《疯狂拼音》和《广告主管理后台》基于TRON公链实现，使用TRX作为游戏内的激励。得益于TRON的高性能，游戏体验得到大幅加强。
