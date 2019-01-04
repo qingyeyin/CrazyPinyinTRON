@@ -45,6 +45,8 @@
 # 《广告主管理后台》
 后台专门广告主准备，可用在后台购买广告，查看并分析广告数据等。
 ![](https://github.com/qingyeyin/CrazyPinyinTRON/blob/master/screenshots/5.png)
+![](https://github.com/qingyeyin/CrazyPinyinTRON/blob/master/screenshots/6.png)
+![](https://github.com/qingyeyin/CrazyPinyinTRON/blob/master/screenshots/7.png)
 
 
 《疯狂拼音》采用Cocos Creator制作，保证了游戏的跨平台性。由于时间限制，目前只实现了采用TronLink/TronPay的Web版本，后续将会支持Android/iOS版本。
