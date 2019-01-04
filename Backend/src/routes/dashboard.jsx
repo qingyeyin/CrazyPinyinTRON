@@ -11,7 +11,7 @@ const dashboardRoutes = [
     icon: Games,
     component: VideoAds
   },
-  { redirect: true, path: "/", to: "/", navbarName: "Redirect" }
+  { redirect: true, path: "/", to: "/", navbarName: "数据面板" }
 ];
 
 export default dashboardRoutes;

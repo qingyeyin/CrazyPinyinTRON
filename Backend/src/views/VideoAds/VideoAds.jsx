@@ -181,7 +181,7 @@ class VideoAds extends React.Component {
               data.push(result[4].toString());
               data.push(result[0].toString());
               data.push(result[1].toString());
-              data.push(result[2].toString());
+              data.push(result[2].toString() / 1000000);
               var td = this.state.tableData;
               td.push(data);
 
@@ -209,7 +209,7 @@ class VideoAds extends React.Component {
                             pointHoverRadius: 0,
                             backgroundColor: pc,
                             borderWidth: 0,
-                            data: [3, 4]
+                            data: [12, 18, 16]
                           }
                         ]
                       };
@@ -272,21 +272,21 @@ class VideoAds extends React.Component {
       var cpcv = document.getElementById('video-ad-cpcv').value * 1000000;
       var total = document.getElementById('video-ad-total-money').value * 1000000;
       
-      console.log("### getVideoAdsInfo FAILED: " + platform + " ci:" +ci + " cpcv: " + cpcv);
+      console.log("### buyVideoAds: " + platform + " ci:" +ci + " cpcv: " + cpcv);
 
       this.state.contract.buyVideoAds(platform, ci, cpcv).send({shouldPollResponse: true, callValue: total}, (err, result) => {
           if (err) {
               var errString = JSON.stringify(err);
               console.log("############## buyVideoAds Failed : " + errString);
           } else {
-              console.log("############## buyVideoAds OK : " + result);
+              alert("广告购买成功！");
           }
       });
   }
 
   getRandomPiechartColor() {
-      var colors = ["#e3e3e3", "#4acccd", "#fcc468", "#ef8157"]
-      var random = this.getRandomNum(0, 3);
+      var colors = ["#e3e3e3", "#4acccd", "#fcc468", "#ef8157", "#F64A4B", "#9697E3", "#52536C", "#5CA6F3", "#F4D91D", "#F8AB0F"]
+      var random = this.getRandomNum(0, colors.length);
       return colors[random];
   }
   
@@ -419,6 +419,20 @@ class VideoAds extends React.Component {
             </Card>
           </GridItem>
           <GridItem xs={12} sm={12} md={12}>
+                <Card>
+                  <CardHeader plain color="primary">
+                    <h4 className={classes.cardTitleWhite}>广告播放占比</h4>
+                    <p className={classes.cardCategoryWhite}>智能合约读取</p>
+                  </CardHeader>
+                  <CardBody>
+                      <Pie
+                        data={this.state.piechartFinaldata.data}
+                        options={this.state.piechartFinaldata.options}
+                      />
+                    </CardBody>
+                </Card>
+            </GridItem>
+          <GridItem xs={12} sm={12} md={12}>
             <Card>
               <CardHeader color="primary">
                 <h4 className={classes.cardTitleWhite}>购买广告</h4>
@@ -481,22 +495,6 @@ class VideoAds extends React.Component {
               </CardFooter>
             </Card>
           </GridItem>
-          <GridItem xs={12} sm={12} md={12}>
-                <Card>
-                  <CardHeader plain color="primary">
-                    <h4 className={classes.cardTitleWhite}>广告播放占比</h4>
-                    <p className={classes.cardCategoryWhite}>智能合约读取</p>
-                  </CardHeader>
-                  <CardBody>
-                      <Pie
-                        data={this.state.piechartFinaldata.data}
-                        options={this.state.piechartFinaldata.options}
-                        //data={dashboardEmailStatisticsChart.data}
-                        //options={dashboardEmailStatisticsChart.options}
-                      />
-                    </CardBody>
-                </Card>
-            </GridItem>
         </GridContainer>
       </div>
     );

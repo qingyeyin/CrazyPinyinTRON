@@ -24,7 +24,7 @@
     "react-scripts": "1.1.5",
     "react-swipeable-views": "0.12.17",
     "reactjs-popup": "^1.3.2",
-    "tronweb": "^2.1.20"
+    "tronweb": "^2.1.24"
   },
   "scripts": {
     "start": "react-scripts start",
@@ -45,7 +45,7 @@
   "keywords": [],
   "author": "Ajoylab",
   "license": "MIT",
-  "homepage": "qingyeyin.github.io/CrazyPinyinTRON",
+  "homepage": "https://qingyeyin.github.io/CrazyPinyinTRON",
   "optionalDependencies": {
     "babel-eslint": "7.2.3",
     "eslint": "4.19.1",
