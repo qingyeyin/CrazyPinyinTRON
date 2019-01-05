@@ -137,6 +137,8 @@ class VideoAds extends React.Component {
           console.log('### 111 BuyVideoAdsCompeteEvent ' + JSON.stringify(response));
           if (!err) {
               var result = response.result;
+              var info = "购买广告成功！购得次数为：" + result.numVideoAdsToBuy;
+              alert(info);
               console.log('### FKFKFKFK!!! BuyVideoAdsCompeteEvent ' + result.owner + " num: " + result.numVideoAdsToBuy);
           } else {
               return console.log("### startEventListener BuyVideoAdsCompeteEvent", JSON.stringify(err));
@@ -174,14 +176,14 @@ class VideoAds extends React.Component {
     console.log("### TEST AAA");
       this.state.contract.getVideoAdsInfo(this.state.infoIndex).call((err, result) => {
           if (!err) {
-              console.log("### getVideoAdsInfo: " + result[0] + " 2: " + result[1] + " 3: " + result[2] + " 4: " + result[3] + " 5: " + result[4]);
+              //console.log("### getVideoAdsInfo: " + result[0] + " 2: " + result[1] + " 3: " + result[2] + " 4: " + result[3] + " 5: " + result[4]);
               
               var data = [];
               data.push(result[3].toString());
               data.push(result[4].toString());
               data.push(result[0].toString());
               data.push(result[1].toString());
-              data.push(result[2].toString() / 1000000);
+              data.push((result[2] / 1000000).toString());
               var td = this.state.tableData;
               td.push(data);
 
@@ -209,7 +211,7 @@ class VideoAds extends React.Component {
                             pointHoverRadius: 0,
                             backgroundColor: pc,
                             borderWidth: 0,
-                            data: [12, 18, 16]
+                            data: pn
                           }
                         ]
                       };
@@ -279,7 +281,7 @@ class VideoAds extends React.Component {
               var errString = JSON.stringify(err);
               console.log("############## buyVideoAds Failed : " + errString);
           } else {
-              alert("广告购买成功！");
+              //alert("广告购买成功！");
           }
       });
   }
