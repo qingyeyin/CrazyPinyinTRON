@@ -13,10 +13,8 @@ import CardHeader from "components/Card/CardHeader.jsx";
 import CardBody from "components/Card/CardBody.jsx";
 import CardFooter from "components/Card/CardFooter.jsx";
 import { Pie } from "react-chartjs-2";
-import TronWeb from 'tronweb';
 
 import contracts from '../../contracts/CrazyPinyin';
-//const contractJson = contracts['CrazyPinyin.sol:TRXMessages'];
 
 const styles = {
   cardCategoryWhite: {
@@ -115,7 +113,6 @@ class VideoAds extends React.Component {
   }
 
   handlePurchaseBottonClicked = () => {
-    console.log("#### RINIMEI: " + window.tronWeb.defaultAddress.base58);
     this.buyVideoAds();
   };
 
@@ -132,36 +129,33 @@ class VideoAds extends React.Component {
           this.retrieveTronWebInfo();
       }
 
-      console.log('### 111 hahah ');
       this.state.contract.BuyVideoAdsCompeteEvent().watch((err, response) => {
-          console.log('### 111 BuyVideoAdsCompeteEvent ' + JSON.stringify(response));
           if (!err) {
               var result = response.result;
               var info = "购买广告成功！购得次数为：" + result.numVideoAdsToBuy;
               alert(info);
-              console.log('### FKFKFKFK!!! BuyVideoAdsCompeteEvent ' + result.owner + " num: " + result.numVideoAdsToBuy);
           } else {
-              return console.log("### startEventListener BuyVideoAdsCompeteEvent", JSON.stringify(err));
           }
       });
   }
 
   getVideoAdsInfo() {
-    console.log("### TEST AAA")
     if (!this.state.tronWeb.loggedIn) {
         return;
     }
 
-    console.log("### TEST BBBZ")
     if (null == this.state.contract) {
         this.retrieveTronWebInfo();
     }
 
-    console.log("### TEST CCC")
     this.state.contract.getTotalNumVideoAds().call((err, result) => {
         if (!err) {
-            console.log("### getTotalNumVideoAds: " + result);
-            this.setState({infoIndex: 0, totalVideoAds: result});
+            this.setState({infoIndex: 0,
+                          totalVideoAds: result,
+                          tableData: [],
+                          piechartLabel: [],
+                          piechartData: [],
+                          piechartColor: []});
             if (result > 0) {
                 this.doGetVideoAdsInfo();
             }
@@ -173,11 +167,8 @@ class VideoAds extends React.Component {
   }
 
   doGetVideoAdsInfo() {
-    console.log("### TEST AAA");
       this.state.contract.getVideoAdsInfo(this.state.infoIndex).call((err, result) => {
           if (!err) {
-              //console.log("### getVideoAdsInfo: " + result[0] + " 2: " + result[1] + " 3: " + result[2] + " 4: " + result[3] + " 5: " + result[4]);
-              
               var data = [];
               data.push(result[3].toString());
               data.push(result[4].toString());
@@ -260,8 +251,6 @@ class VideoAds extends React.Component {
                   };
                   this.setState({piechartFinaldata: finalData})
               }
-
-
           } else {
               console.error("### getVideoAdsInfo FAILED: " + JSON.stringify(err));
         }
@@ -273,8 +262,6 @@ class VideoAds extends React.Component {
       var ci = document.getElementById('video-ad-id').value;
       var cpcv = document.getElementById('video-ad-cpcv').value * 1000000;
       var total = document.getElementById('video-ad-total-money').value * 1000000;
-      
-      console.log("### buyVideoAds: " + platform + " ci:" +ci + " cpcv: " + cpcv);
 
       this.state.contract.buyVideoAds(platform, ci, cpcv).send({shouldPollResponse: true, callValue: total}, (err, result) => {
           if (err) {
@@ -296,97 +283,60 @@ class VideoAds extends React.Component {
       var range = Max - Min;   
       var rand = Math.random();   
       return(Min + Math.round(rand * range));   
-  } 
+  }
 
-  async componentDidMount() {
-      await new Promise(resolve => {
-          const tronWebState = {
-              installed: !!window.tronWeb,
-              loggedIn: window.tronWeb && window.tronWeb.ready
-          };
+  doComponentDidMount() {
+      const tronWebState = {
+          installed: !!window.tronWeb,
+          loggedIn: window.tronWeb && window.tronWeb.ready
+      };
+      this.setState({tronWeb: tronWebState});
 
-          if(tronWebState.installed) {
-              this.setState({
-                  tronWeb:
-                  tronWebState
-              });
+      if (window.tronWeb && window.tronWeb.ready) {
+          this.setState({
+              tronWebAvalabilityTitle: "TronLink 已经登录",
+              tronWebAvalabilityText: "钱包地址: " + window.tronWeb.defaultAddress.base58
+          });
+          this.startSmartContractEventListener();
+          this.getVideoAdsInfo();
+      }
+  }
 
-              return resolve();
+  componentDidMount() {
+      let numTries = 0;
+
+      const timer = setInterval(() => {
+          if (numTries >= 10) {
+              clearInterval(timer);
+              return;
           }
 
-          let tries = 0;
-
-          const timer = setInterval(() => {
-              if(tries >= 10) {
-                  const TRONGRID_API = 'https://api.trongrid.io';
-
-                  window.tronWeb = new TronWeb(
-                      TRONGRID_API,
-                      TRONGRID_API,
-                      TRONGRID_API
-                  );
-
-                  this.setState({
-                      tronWeb: {
-                          installed: false,
-                          loggedIn: false
+          if (!!window.tronWeb) {
+              clearInterval(timer);
+              if (!window.tronWeb.ready) {
+                  numTries = 0;
+                  const anotherTimer = setInterval(() => {
+                      if (numTries >= 10) {
+                          clearInterval(anotherTimer);
+                          return;
                       }
-                  });
 
-                  clearInterval(timer);
-                  return resolve();
+                      if(!!window.tronWeb && window.tronWeb.ready) {
+                          clearInterval(anotherTimer);
+                          this.doComponentDidMount();
+                          return;
+                      }
+                      numTries++
+
+                  }, 100);
+
+              } else {
+                  this.doComponentDidMount();
               }
+          }
 
-              tronWebState.installed = !!window.tronWeb;
-              tronWebState.loggedIn = window.tronWeb && window.tronWeb.ready;
-
-              if(!tronWebState.installed)
-                  return tries++;
-
-              this.setState({
-                  tronWeb: tronWebState
-              });
-
-              resolve();
-          }, 100);
-      });
-
-      if(this.state.tronWeb.loggedIn) {
-          this.setState({
-            tronWebAvalabilityTitle: "TronLink 已经登录",
-            tronWebAvalabilityText: "钱包地址: " + window.tronWeb.defaultAddress.base58
-          });
-      } else {
-          window.tronWeb.on('addressChanged', () => {
-              if(this.state.tronWeb.loggedIn)
-                  return;
-
-              this.setState({
-                  tronWeb: {
-                      installed: true,
-                      loggedIn: true
-                  },
-                  tronWebAvalabilityTitle: "TronLink 已经登录",
-                  tronWebAvalabilityText: "钱包地址: " + window.tronWeb.defaultAddress.base58
-              });
-              this.startSmartContractEventListener();
-              this.getVideoAdsInfo();
-          });
-      }
-
-  /*
-      this.timer = setTimeout(() => {
-        if (!this.isTronLinkInstalled()) {
-          //alert("请使用 Chrome 并安装 TronLink/TronPay 查看数据");
-        } else if (!this.isTronLinkLoggedIn()) {
-          //alert("请登录 TronLink/TronPay 查看数据");
-        } else {
-            this.setState({
-              tronWebAvalabilityTitle: "TronLink 已经登录",
-              tronWebAvalabilityText: "钱包地址: " + window.tronWeb.defaultAddress.base58});
-        }
-      }, 500);
-      */
+          numTries++;
+      }, 100);
   }
 
   componentWillUnmount() {
