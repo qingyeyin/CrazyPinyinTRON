@@ -4,7 +4,7 @@
 
 -《疯狂拼音》小游戏:  http://www.crazypinyin.com
   
--《广告主管理后台》:  https://qingyeyin.github.io/CrazyPinyinTRON/
+-《疯狂拼音广告主管理后台》:  https://qingyeyin.github.io/CrazyPinyinTRON/
 
 《疯狂拼音》和《广告主管理后台》基于TRON公链实现，使用TRX作为游戏内的激励。得益于TRON的高性能，游戏体验得到大幅加强。
 
